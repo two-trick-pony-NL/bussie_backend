@@ -1,0 +1,3 @@
+{"photoscavenger": {
+  "image": ":bussie-backend.bussie-backend.latest",
+  "ports": {"80": "HTTP"}}}
