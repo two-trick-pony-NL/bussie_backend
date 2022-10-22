@@ -18,4 +18,4 @@ COPY gunicorn.sh .
 COPY main.py .
 COPY static ./static
 # Specify the command to run on container start
-ENTRYPOINT ["./gunicorn.sh"]
+ENTRYPOINT ["./Infrastructure/gunicorn.sh"]

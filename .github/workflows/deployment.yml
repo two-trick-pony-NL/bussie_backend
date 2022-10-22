@@ -47,7 +47,7 @@ jobs:
       - name: 🚀 Deploying the container to the Amazon datacenter
         run: |
           aws lightsail create-container-service-deployment --service-name bussie-backend \
-            --containers file://AWS/deploymentconfig.json \
-            --public-endpoint file://AWS/publicendpoint.json
+            --containers file://Infrastructure/deploymentconfig.json \
+            --public-endpoint file://Infrastructure/publicendpoint.json
       - name: =========== All done. Cleaning up ♻️  ===========
         run: ls
