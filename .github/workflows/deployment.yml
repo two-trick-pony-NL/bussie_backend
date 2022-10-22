@@ -2,7 +2,7 @@ name: 🚀 Production deployment
 # Only trigger, when the build workflow succeeded
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 env:
   AWS_REGION: eu-central-1
