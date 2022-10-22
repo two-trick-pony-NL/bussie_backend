@@ -1,3 +1,4 @@
+from multiprocessing.resource_sharer import stop
 from sqlalchemy.orm import Session
 
 from . import models, schemas
@@ -22,6 +23,13 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def create_stop(db: Session, stop: schemas.StopCreate):
+    db_stop = models.Stop(TimingPointName=stop.TimingPointName, latitude=stop.latitude, longitude=stop.longitude, StopAreaCode=stop.StopAreaCode, TimingPointTown=stop.TimingPointTown)
+    db.add(db_stop)
+    db.commit()
+    db.refresh(db_stop)
+    return db_stop
 
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):

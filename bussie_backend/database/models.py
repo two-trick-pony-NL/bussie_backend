@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -24,3 +24,14 @@ class Item(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="items")
+
+class Stop(Base):
+    __tablename__ = "stops"
+
+    id = Column(Integer, primary_key=True, index=True)
+    StopAreaCode = Column(String, index=True)
+    TimingPointName = Column(String, index=True)
+    latitude = Column(Float, index=True)
+    longitude = Column(Float, index=True)
+    StopAreaCode = Column(String, index=True)
+    TimingPointTown = Column(Integer, ForeignKey("users.id"))
