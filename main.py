@@ -1,14 +1,18 @@
-from fastapi import FastAPI, File, Request
-from fastapistats import Stats
-from datetime import datetime
+from fastapi import Depends, FastAPI, HTTPException, Request
+from sqlalchemy.orm import Session
+
+from bussie_backend.database import crud, models, schemas
+from bussie_backend.database.database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-update = Stats.update_stats
-
 
 @app.get('/')
-@update(name='Homepage') 
 def read_root(request: Request):
     return {"Hello":"World"}
 
-##Comments
+### Have data collection 
+
+
+### Have service for clients

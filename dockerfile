@@ -17,5 +17,6 @@ RUN pip install -r requirements.txt
 COPY Infrastructure ./Infrastructure
 COPY main.py .
 COPY static ./static
+COPY bussie_backend ./bussie_backend
 # Specify the command to run on container start
 ENTRYPOINT ["./Infrastructure/gunicorn.sh"]
