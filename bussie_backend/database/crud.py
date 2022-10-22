@@ -31,6 +31,9 @@ def create_stop(db: Session, stop: schemas.StopCreate):
     db.refresh(db_stop)
     return db_stop
 
+def get_stops(db: Session, skip: int = 0, limit: int = 100000):
+    return db.query(models.Stop).offset(skip).limit(limit).all()
+
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()

@@ -1,8 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException, Request
 from sqlalchemy.orm import Session
-
 from bussie_backend.database import crud, models, schemas
 from bussie_backend.database.database import SessionLocal, engine
+from bussie_backend.calculations.calculate_closest_station import calculate_closest_station
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -12,10 +12,11 @@ app = FastAPI()
 def read_root(request: Request):
     return {"Hello":"World"}
 
-# Have data collection 
-
-
-# Have service for clients
+#Pass the parameters for this function like so: http://127.0.0.1:8000/get_closest_stations/?latitude=20?longitude=20
+@app.get('/get_closest_stations/')
+def get_closest_station(latitude: float, longitude: float | None = None):
+    return calculate_closest_station(latitude, longitude)
+    #return "Hello world"
 
 # Dependency
 def get_db():
@@ -33,7 +34,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email already registered")
     return crud.create_user(db=db, user=user)
 
-@app.post("/stops/", response_model=schemas.Stop)
+@app.post("/add_stops_to_database/", response_model=schemas.Stop)
 def create_stop(stop: schemas.StopCreate, db: Session = Depends(get_db)):
     return crud.create_stop(db=db, stop=stop)
 
@@ -63,3 +64,10 @@ def create_item_for_user(
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
+
+# Have data collection 
+
+
+# Have service for clients
+
+# Have maintanence scheduled

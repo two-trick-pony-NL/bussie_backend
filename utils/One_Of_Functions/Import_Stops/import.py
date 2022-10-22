@@ -2,6 +2,7 @@ import json
 import requests
 
 #This function reads the json file also in this folder which I got here: http://v0.ovapi.nl/stopareacode
+#https://github.com/koch-t/KV78Turbo-OVAPI/wiki
 #It adds all separate stations to our database
 
 # api-endpoint
