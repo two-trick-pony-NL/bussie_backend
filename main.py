@@ -5,7 +5,7 @@ from bussie_backend.database import crud, models, schemas
 from bussie_backend.database.database import SessionLocal, engine
 from bussie_backend.calculations.calculate_closest_station \
     import calculate_closest_station
-import utils.authentication.auth as auth
+#import utils.authentication.auth as auth
 
 models.Base.metadata.create_all(bind=engine)
 
