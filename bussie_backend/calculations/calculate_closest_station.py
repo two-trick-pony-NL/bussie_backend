@@ -1,7 +1,3 @@
-from sqlalchemy.orm import Session
-from bussie_backend.database import crud, models, schemas
-from bussie_backend.database.database import SessionLocal, engine
-import json
 import sqlite3
 from math import cos, asin, sqrt
 
