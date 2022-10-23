@@ -3,9 +3,7 @@ from fastapi.security.api_key import APIKey
 from sqlalchemy.orm import Session
 from bussie_backend.database import crud, models, schemas
 from bussie_backend.database.database import SessionLocal, engine
-from bussie_backend.calculations.calculate_closest_station \
-    import calculate_closest_station
-#import utils.authentication.auth as auth
+from bussie_backend.calculations.calculate_closest_station import calculate_closest_station
 
 models.Base.metadata.create_all(bind=engine)
 
