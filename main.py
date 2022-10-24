@@ -14,6 +14,10 @@ app = FastAPI()
 def read_root(request: Request):
     return {"Hello": "World"}
 
+@app.get('/AWSHealthCheck')
+def read_root(request: Request):
+    return {"Status": "Up And Running"}
+
 
 # Pass the parameters for this function
 # like so: http://127.0.0.1:8000/get_closest_stations/?latitude=20?longitude=20
