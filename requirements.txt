@@ -8,3 +8,4 @@ fastapi-utils==0.2.1
 fast-api-stats==0.0.4
 sqlalchemy
 apscheduler==3.9.1
+pyzmq
