@@ -3,7 +3,7 @@
 from fastapi import Depends, FastAPI
 from fastapi.security.api_key import APIKey
 # Enable the live feed 
-from multiprocessing import Process, Value
+from multiprocessing import Process
 from bussie_backend.data_collection.livestream import enable_live_feed
 # Enable the client API
 
@@ -29,7 +29,9 @@ app.include_router(client_api.router, prefix="/API/V1")
 
 # Enable data collection
 # This background task collects all location information and stores in in a database
-
+p = Process(target=enable_live_feed)
+p.start()
+p.join()
 
 
 # Have maintanence scheduled
