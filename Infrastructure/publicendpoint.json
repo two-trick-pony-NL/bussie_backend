@@ -6,7 +6,7 @@
     "unhealthyThreshold": 10,
     "timeoutSeconds": 60,
     "intervalSeconds": 300,
-    "path": "/AWSHealthCheck",
+    "path": "API/V1/AWSHealthCheck",
     "successCodes": "200-299"
 }
 }
