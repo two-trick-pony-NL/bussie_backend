@@ -6,6 +6,10 @@ from fastapi.security.api_key import APIKey
 from multiprocessing import Process
 from bussie_backend.data_collection.livestream import enable_live_feed
 # Enable the client API
+from bussie_backend.client_service import client_api
+# Import modules to run on an interval
+from apscheduler.schedulers.background import BackgroundScheduler
+from utils.recurring_functions.background_tasks import *
 
 """
 This is the main FastAPI Script
@@ -15,10 +19,7 @@ It also starts datacollection and a scheduler which runs specific tasks at a spe
 The combination of these three allows us to run the backend. 
 """
 
-from bussie_backend.client_service import client_api
-# Import modules to run on an interval
-from apscheduler.schedulers.background import BackgroundScheduler
-from utils.recurring_functions.background_tasks import *
+
 
 #Kickstart a FastAPI process
 app = FastAPI()
@@ -29,9 +30,9 @@ app.include_router(client_api.router, prefix="/API/V1")
 
 # Enable data collection
 # This background task collects all location information and stores in in a database
-p = Process(target=enable_live_feed)
-p.start()
-p.join()
+process = Process(target=enable_live_feed)
+process.start()
+process.join()
 
 
 # Have maintanence scheduled
@@ -45,6 +46,4 @@ scheduler.add_job(Every_day, 'interval', hours=24)
 
 # Enable data collection
 # This background task collects all location information and stores in in a database
-
-
 scheduler.start()

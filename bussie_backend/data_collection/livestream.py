@@ -1,20 +1,20 @@
 from gzip import GzipFile
 from io import BytesIO
 import zmq
+from time import sleep
 import xml.etree.ElementTree as ET
 
 
-context = zmq.Context()
-
-
-subscriber = context.socket(zmq.SUB)
-subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
-subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
-subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
-subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
 
 def enable_live_feed():
+    context = zmq.Context()
+    subscriber = context.socket(zmq.SUB)
+    subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
     while True:
+        sleep(1)
         multipart = subscriber.recv_multipart()
         address = multipart[0]
         try:
@@ -39,5 +39,5 @@ def enable_live_feed():
             print('ERROR in latest fetch')
             print('############\n')
 
-subscriber.close()
-context.term()
+    subscriber.close()
+    context.term()
