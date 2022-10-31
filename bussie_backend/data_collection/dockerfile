@@ -1,8 +1,6 @@
 # Set base image (host OS)
 FROM python:3.10-buster
 
-# By default, listen on port 5000
-
 # Set the working directory in the container
 WORKDIR /data_collection
 
@@ -15,4 +13,4 @@ RUN pip install -r requirements.txt
 # Copy the content of the local src directory to the working directory
 COPY livestream.py .
 # Specify the command to run on container start
-CMD [ "python", "./livestream.py"]
+ENTRYPOINT python ./livestream.py
