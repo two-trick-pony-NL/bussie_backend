@@ -4,7 +4,6 @@
   "ports": {"80": "HTTP"}
 },
 "bussie-scraper": {
-  "image": ":bussie-backend.bussie-scraper.latest",
-  "ports": {"8080": "HTTP"}
+  "image": ":bussie-backend.bussie-scraper.latest"
 }
 }

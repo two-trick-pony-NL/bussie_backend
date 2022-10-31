@@ -59,7 +59,7 @@ jobs:
             --image ${{env.AWS_LIGHTSAIL_SCRAPER_NAME}}:latest
       - name: 🗂 Change folder back to root. 
         run: cd ../..
-      - name: 🚀 Deploying the container to the Amazon datacenter
+      - name: 🚀 Deploying the containers to the Amazon datacenter
         run: |
           aws lightsail create-container-service-deployment --service-name bussie-backend \
             --containers file://Infrastructure/deploymentconfig.json \
