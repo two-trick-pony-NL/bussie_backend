@@ -30,9 +30,9 @@ app.include_router(client_api.router, prefix="/API/V1")
 
 # Enable data collection
 # This background task collects all location information and stores in in a database
-process = Process(target=enable_live_feed)
-process.start()
-process.join()
+#process = Process(target=enable_live_feed)
+#process.start()
+#process.join()
 
 
 # Have maintanence scheduled
