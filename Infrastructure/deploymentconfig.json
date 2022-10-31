@@ -2,4 +2,5 @@
   "image": ":bussie-backend.bussie-backend.latest",
   "ports": {"80": "HTTP"}
 },
-{"image": ":bussie-backend.bussie-backend.300"}}
+{"Name": "DataCollection",
+ "image": ":bussie-backend.bussie-backend.300"}}
