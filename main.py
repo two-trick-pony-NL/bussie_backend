@@ -9,7 +9,7 @@ from bussie_backend.data_collection.livestream import enable_live_feed
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
 from apscheduler.schedulers.background import BackgroundScheduler
-from utils.recurring_functions.background_tasks import *
+#from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
 
 """
 This is the main FastAPI Script
@@ -37,6 +37,7 @@ app.include_router(client_api.router, prefix="/API/V1")
 
 # Have maintanence scheduled
 # We have specific recurring tasks running that keep the application nice and tidy
+"""
 scheduler = BackgroundScheduler()
 scheduler.add_job(Every_minute, 'interval', minutes=1)
 scheduler.add_job(Every_fifteen_minutes, 'interval', minutes=15)
@@ -47,3 +48,4 @@ scheduler.add_job(Every_day, 'interval', hours=24)
 # Enable data collection
 # This background task collects all location information and stores in in a database
 scheduler.start()
+"""
