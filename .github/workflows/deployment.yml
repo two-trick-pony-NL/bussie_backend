@@ -54,8 +54,8 @@ jobs:
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
-            --service-name ${service_name} \
-            --label ${service_name} \
+            --service-name bussie-scraper \
+            --label bussie-scraper \
             --image ${{env.AWS_LIGHTSAIL_SCRAPER_NAME}}:latest
       - name: 🗂 Change folder back to root. 
         run: cd ../..
