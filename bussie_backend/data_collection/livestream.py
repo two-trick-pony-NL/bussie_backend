@@ -21,6 +21,7 @@ while True:
         
         print("Update Received:")
         """
+        # More comments
         #Gets the timestamp
         print('time', root[3].text)
         #Gets the operator of this transport
