@@ -19,8 +19,8 @@ while True:
         contents = GzipFile('','r',0,BytesIO(multipart[1])).read()
         root = ET.fromstring(contents)
         
-        print("Updates Received:")
         """
+        print("Updates Received:")
         # More comments
         #Gets the timestamp
         print('time', root[3].text)
