@@ -18,7 +18,9 @@ while True:
         # The data is sent gzipped compressed as bytes. This unpacks this and stores it in contents variable
         contents = GzipFile('','r',0,BytesIO(multipart[1])).read()
         root = ET.fromstring(contents)
+        
         print("Update Received:")
+        """
         #Gets the timestamp
         print('time', root[3].text)
         #Gets the operator of this transport
@@ -30,6 +32,7 @@ while True:
         print(address)
         print("\n")
         #print("transmission success")
+        """
 
     except:
         print('\n############')
