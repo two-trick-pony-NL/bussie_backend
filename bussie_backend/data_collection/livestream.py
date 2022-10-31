@@ -1,7 +1,7 @@
 from gzip import GzipFile
 from io import BytesIO
 import zmq
-from time import sleep
+from time import sleep, time
 import xml.etree.ElementTree as ET
 """
 context = zmq.Context()
@@ -13,6 +13,7 @@ subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
 """
 while True:
     print("Still running")
+    sleep(10)
     """
     multipart = subscriber.recv_multipart()
     address = multipart[0]

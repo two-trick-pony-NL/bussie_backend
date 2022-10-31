@@ -1,6 +1,6 @@
 {
   "containerName": "bussie-backend",
-  "containerPort": 8080,
+  "containerPort": 80,
   "healthCheck": {
     "healthyThreshold": 2,
     "unhealthyThreshold": 10,
