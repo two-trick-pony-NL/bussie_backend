@@ -3,5 +3,6 @@
   "ports": {"80": "HTTP"}
 }}
 {"bussie-scraper": {
-  "image": ":bussie-backend.bussie-backend.latest"
+  "image": ":bussie-backend.bussie-backend.latest",
+  "ports": {"8080": "HTTP"}
 }}
