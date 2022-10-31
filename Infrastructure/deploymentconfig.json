@@ -1,3 +1,5 @@
 {"bussie-backend": {
   "image": ":bussie-backend.bussie-backend.latest",
-  "ports": {"80": "HTTP"}}}
+  "ports": {"80": "HTTP"}
+},
+{"image": ":bussie-backend.bussie-backend.300"}}
