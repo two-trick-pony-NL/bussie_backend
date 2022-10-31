@@ -1,7 +1,7 @@
 {"bussie-backend": {
   "image": ":bussie-backend.bussie-backend.latest",
   "ports": {"80": "HTTP"}
-}},
+}}
 {"bussie-scraper": {
   "image": ":bussie-backend.bussie-backend.latest"
 }}
