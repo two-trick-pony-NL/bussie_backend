@@ -3,15 +3,17 @@ from io import BytesIO
 import zmq
 from time import sleep
 import xml.etree.ElementTree as ET
-
+"""
 context = zmq.Context()
 subscriber = context.socket(zmq.SUB)
 subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
+"""
 while True:
-    sleep(1)
+    print("Still running")
+    """
     multipart = subscriber.recv_multipart()
     address = multipart[0]
     try:
@@ -33,8 +35,9 @@ while True:
         print(address)
         print("\n")
         #print("transmission success")
-        
-
+        """
+    
+"""
     except:
         print('\n############')
         print('ERROR in latest fetch')
@@ -42,3 +45,4 @@ while True:
 
 subscriber.close()
 context.term()
+"""
