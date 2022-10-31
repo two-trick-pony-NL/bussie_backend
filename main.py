@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI
 from fastapi.security.api_key import APIKey
 # Enable the live feed 
 from multiprocessing import Process
-from bussie_backend.data_collection.livestream import enable_live_feed
+#from bussie_backend.data_collection.livestream import enable_live_feed
 # Enable the client API
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
