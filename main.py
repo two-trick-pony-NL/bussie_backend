@@ -9,7 +9,7 @@ from bussie_backend.data_collection.livestream import enable_live_feed
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
 from apscheduler.schedulers.background import BackgroundScheduler
-#from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
+from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
 
 """
 This is the main FastAPI Script
