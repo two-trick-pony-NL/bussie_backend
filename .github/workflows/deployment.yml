@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: eu-central-1
-  AWS_LIGHTSAIL_SERVICE_NAME: bussie-backend
+  AWS_LIGHTSAIL_SERVICE_NAME: bussie
   AWS_LIGHTSAIL_SCRAPER_NAME: bussie-scraper
 jobs:
           
@@ -54,14 +54,14 @@ jobs:
           service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
-            --service-name bussie-backend \
+            --service-name bussie \
             --label bussie-scraper \
             --image ${{env.AWS_LIGHTSAIL_SCRAPER_NAME}}:latest
       - name: 🗂 Change folder back to root. 
         run: cd ../..
       - name: 🚀 Deploying the containers to the Amazon datacenter
         run: |
-          aws lightsail create-container-service-deployment --service-name bussie-backend \
+          aws lightsail create-container-service-deployment --service-name bussie \
             --containers file://Infrastructure/deploymentconfig.json \
             --public-endpoint file://Infrastructure/publicendpoint.json
       - name: =========== All done. Cleaning up ♻️  ===========
