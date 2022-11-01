@@ -1,6 +1,6 @@
 
 # General FastAPI Imports
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Request
 from fastapi.security.api_key import APIKey
 # Enable the live feed 
 from multiprocessing import Process
@@ -27,6 +27,10 @@ app = FastAPI()
 # This adds all the routes in clients_service to this app.
 # This is split up on purpose to keep the app tidy. All routes are in client_service
 app.include_router(client_api.router, prefix="/API/V1")
+
+@app.get('/')
+def read_root(request: Request):
+    return {"Hello": "World"}
 
 # Enable data collection
 # This background task collects all location information and stores in in a database
