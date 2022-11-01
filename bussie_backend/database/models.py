@@ -1,6 +1,6 @@
+from xmlrpc.client import DateTime
 from sqlalchemy import Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-
 from .database import Base
 
 
@@ -34,4 +34,13 @@ class Stop(Base):
     latitude = Column(Float, index=True)
     longitude = Column(Float, index=True)
     StopAreaCode = Column(String, index=True)
-    TimingPointTown = Column(Integer, ForeignKey("users.id"))
+    TimingPointTown = Column(Integer)
+
+class Vehicles(Base):
+    __tablename__ = "vehicles"
+    id = Column(Integer, primary_key=True, index=True)
+    TimeStamp = Column(String, index=True)
+    latitude = Column(Float, index=True)
+    longitude = Column(Float, index=True)
+    Operator = Column(String, index=True)
+    LineNumber = Column(Integer, index=True)

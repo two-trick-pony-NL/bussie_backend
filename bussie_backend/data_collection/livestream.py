@@ -1,17 +1,39 @@
 from gzip import GzipFile
 from io import BytesIO
+import string
+from fastapi import Depends
 import zmq
 import xml.etree.ElementTree as ET
 
+from bussie_backend.database import crud, models, schemas
+from sqlalchemy.orm import Session
+from ..database.database import SessionLocal, engine
+import sqlite3
 
+
+models.Base.metadata.create_all(bind=engine)
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 def worker():
     context = zmq.Context()
     subscriber = context.socket(zmq.SUB)
     subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
-    subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
-    subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/CXX/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/GVB/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/EBS/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/OPENOV/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/QBUZZ/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/SYNTUS/KV6posinfo")
+    #subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
+    #subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
 
     while True:
         multipart = subscriber.recv_multipart()
@@ -36,7 +58,7 @@ def worker():
             print("\n")
 
         except:
-            print('\n############')
+            print('\n\n############')
             print('ERROR in latest fetch')
             print('############\n')
 

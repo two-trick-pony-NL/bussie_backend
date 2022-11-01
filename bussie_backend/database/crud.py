@@ -3,19 +3,6 @@ from sqlalchemy.orm import Session
 
 from . import models, schemas
 
-
-def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
-
-
-def get_user_by_email(db: Session, email: str):
-    return db.query(models.User).filter(models.User.email == email).first()
-
-
-def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
-
-
 def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.password + "notreallyhashed"
     db_user = models.User(email=user.email, hashed_password=fake_hashed_password)
@@ -31,17 +18,11 @@ def create_stop(db: Session, stop: schemas.StopCreate):
     db.refresh(db_stop)
     return db_stop
 
+def create_vehicle(db: Session, timestamp,  operator, linenumber, x_coordinate,  y_coordinate):
+    db_vehicle = models.Vehicles(TimeStamp=timestamp, latitude=x_coordinate, longitude=y_coordinate, Operator=operator, LineNumber=linenumber)
+    db.commit()
+    db.refresh(db_vehicle)
+    return db_vehicle
+
 def get_stops(db: Session, skip: int = 0, limit: int = 100000):
     return db.query(models.Stop).offset(skip).limit(limit).all()
-
-
-def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
-
-
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-    db_item = models.Item(**item.dict(), owner_id=user_id)
-    db.add(db_item)
-    db.commit()
-    db.refresh(db_item)
-    return db_item

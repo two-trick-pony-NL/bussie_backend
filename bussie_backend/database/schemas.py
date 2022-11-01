@@ -15,6 +15,14 @@ class StopBase(BaseModel):
     StopAreaCode: str
     TimingPointTown: str
 
+class VehicleBase(BaseModel):
+    TimeStamp: str
+    TimingPointName: str
+    latitude: float
+    longitude: float
+    Operator: str
+    LineNumber: int
+
 class ItemCreate(ItemBase):
     pass
 
@@ -41,6 +49,13 @@ class StopCreate(BaseModel):
     StopAreaCode: str
     TimingPointTown: str
 
+class VehicleCreate(BaseModel):
+    TimeStamp: str
+    TimingPointName: str
+    latitude: float
+    longitude: float
+    Operator: str
+    LineNumber: int
 
 class User(UserBase):
     id: int
@@ -51,6 +66,13 @@ class User(UserBase):
         orm_mode = True
 
 class Stop(StopBase):
+    id: int
+    items: list[Item] = []
+
+    class Config:
+        orm_mode = True
+
+class Vehicles(VehicleBase):
     id: int
     items: list[Item] = []
 
