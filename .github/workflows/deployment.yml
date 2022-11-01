@@ -44,7 +44,7 @@ jobs:
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
             --label ${service_name} \
-            --image bussie-backend:latest:latest
+            --image bussie-backend:latest
       - name: 🗂 Change folder. 
         run: cd bussie_backend/data_collection
       - name: 🐳 Create a Docker Container for Scraper
