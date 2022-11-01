@@ -1,25 +1,25 @@
 
-# General FastAPI Imports
 from fastapi import Depends, FastAPI, Request
 from fastapi.security.api_key import APIKey
 # Enable the live feed 
 from multiprocessing import Process
-#from bussie_backend.data_collection.livestream import enable_data_stream
+from bussie_backend.data_collection.livestream import worker
 # Enable the client API
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
 from apscheduler.schedulers.background import BackgroundScheduler
 #from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
 
-"""
-This is the main FastAPI Script
+import uvicorn
+import multiprocessing
+import time
+import zmq
+import xml.etree.ElementTree as ET
+from gzip import GzipFile
+from io import BytesIO
+from fastapi import FastAPI
 
-It consists of some imports, then starts the webserver. 
-It also starts datacollection and a scheduler which runs specific tasks at a specific interval. 
-The combination of these three allows us to run the backend. 
-"""
 app = FastAPI()
-
 #Kickstart a FastAPI process
 
 # This adds all the routes in clients_service to this app.
@@ -30,19 +30,23 @@ def read_root(request: Request):
     return {"Hello": "World"}
 
 
-# Hae maintanence scheduled
-# We have specific recurring tasks running that keep the application nice and tidy
-"""
-scheduler = BackgroundScheduler()
-scheduler.add_job(Every_minute, 'interval', minutes=1)
-scheduler.add_job(Every_fifteen_minutes, 'interval', minutes=15)
-scheduler.add_job(Every_hour, 'interval', minutes=60)
-scheduler.add_job(Every_day, 'interval', hours=24)
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 
-# Enable data collection
-# This background task collects all location information and stores in in a database
-scheduler.start()
-"""
+def server():
+    uvicorn.run(app, host="0.0.0.0", port=80)
 
-#enable_data_stream()
+# Start the server here
+if __name__ == '__main__':
+    print("Starting the server")
+    # Runs api server and datastream worker in separate processes
+    webserver = multiprocessing.Process(target=server)
+    webserver.start()
+    print("Starting the Datastream")
+    time.sleep(1)  # Wait for server to start
+    datastream = multiprocessing.Process(target=worker)
+    datastream.start()
+    webserver.join()
+    datastream.join()
