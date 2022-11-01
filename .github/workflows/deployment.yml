@@ -43,7 +43,7 @@ jobs:
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
-            --label ${service_name} \
+            --label bussie-backend:latest \
             --image bussie-backend:latest
       - name: 🗂 Change folder. 
         run: cd bussie_backend/data_collection
