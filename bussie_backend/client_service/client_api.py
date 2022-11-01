@@ -20,21 +20,20 @@ def get_db():
         db.close()
 
 @router.get('/')
-def read_root(request: Request):
+async def read_root(request: Request):
     return {"Hello": "World"}
 
 @router.get('/AWSHealthCheck')
-def read_root(request: Request):
+async def read_root(request: Request):
     return {"Status": "Up And Running"}
-
 
 # Pass the parameters for this function
 # like so: http://127.0.0.1:8000/get_closest_stations/?latitude=20?longitude=20
 @router.get('/get_closest_stations/')
-def get_closest_station(latitude: float, longitude: float | None = None):
+async def get_closest_station(latitude: float, longitude: float | None = None):
     return calculate_closest_station(latitude, longitude)
 
 @router.post("/add_stops_to_database/", response_model=schemas.Stop)
-def create_stop(stop: schemas.StopCreate,
+async def create_stop(stop: schemas.StopCreate,
                 db: Session = Depends(get_db)):
     return crud.create_stop(db=db, stop=stop)

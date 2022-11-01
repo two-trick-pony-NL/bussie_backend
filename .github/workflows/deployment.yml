@@ -45,20 +45,6 @@ jobs:
             --service-name ${service_name} \
             --label bussie-backend \
             --image bussie-backend:latest
-      - name: 🗂 Change folder. 
-        run: cd bussie_backend/data_collection
-      - name: 🐳 Create a Docker Container for Scraper
-        run: docker build -t bussie-scraper:latest .
-      - name: 📬 Upload Scraper image to AWS container register
-        run: |
-          service_name=${{ env.AWS_LIGHTSAIL_SERVICE_NAME }}
-          aws lightsail push-container-image \
-            --region ${{ env.AWS_REGION }} \
-            --service-name bussie \
-            --label bussie-scraper \
-            --image ${{env.AWS_LIGHTSAIL_SCRAPER_NAME}}:latest
-      - name: 🗂 Change folder back to root. 
-        run: cd ../..
       - name: 🚀 Deploying the containers to the Amazon datacenter
         run: |
           aws lightsail create-container-service-deployment --service-name bussie \
