@@ -3,8 +3,7 @@ from io import BytesIO
 import zmq
 from time import sleep, time
 import xml.etree.ElementTree as ET
-"""
-#Adding comment
+
 context = zmq.Context()
 subscriber = context.socket(zmq.SUB)
 subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
