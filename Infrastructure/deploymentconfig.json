@@ -2,8 +2,8 @@
 {"bussie-backend": {
   "image": ":bussie.bussie-backend.latest",
   "ports": {"8000": "HTTP", "80": "HTTP"}
-},
+}/*,
 "bussie-scraper": {
   "image": ":bussie.bussie-scraper.latest",
   "ports": {"5000": "HTTP"}
-}}
+}*/}
