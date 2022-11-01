@@ -3,8 +3,8 @@
 from fastapi import Depends, FastAPI, Request
 from fastapi.security.api_key import APIKey
 # Enable the live feed 
-from multiprocessing import Process
-#from bussie_backend.data_collection.livestream import enable_live_feed
+from multiprocessing import Process, pool
+from bussie_backend.data_collection.livestream import enable_data_stream
 # Enable the client API
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
@@ -20,23 +20,25 @@ The combination of these three allows us to run the backend.
 """
 
 
+def func2():
+    #Kickstart a FastAPI process
+    app = FastAPI()
 
-#Kickstart a FastAPI process
-app = FastAPI()
+    # This adds all the routes in clients_service to this app.
+    # This is split up on purpose to keep the app tidy. All routes are in client_service
+    app.include_router(client_api.router, prefix="/API/V1")
 
-# This adds all the routes in clients_service to this app.
-# This is split up on purpose to keep the app tidy. All routes are in client_service
-app.include_router(client_api.router, prefix="/API/V1")
-
-@app.get('/')
-def read_root(request: Request):
-    return {"Hello": "World"}
+    @app.get('/')
+    def read_root(request: Request):
+        return {"Hello": "World"}
 
 # Enable data collection
 # This background task collects all location information and stores in in a database
-#process = Process(target=enable_live_feed)
-#process.start()
-#process.join()
+pool = Pool()
+
+p1 = Process(target=enable_data_stream)
+
+
 
 
 # Have maintanence scheduled
