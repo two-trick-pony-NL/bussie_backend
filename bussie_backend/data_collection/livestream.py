@@ -10,7 +10,7 @@ subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
-"""
+
 while True:
     print("Still running")
     sleep(10)
