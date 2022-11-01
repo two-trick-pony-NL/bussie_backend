@@ -1,5 +1,5 @@
 {
-    "serviceName": "bussie-backend",
+    "serviceName": "bussie",
     "containerName": "bussie-backend",
     "filterPattern": "-ELB-HealthChecker -static"
 }
