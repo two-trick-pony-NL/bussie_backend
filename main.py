@@ -3,8 +3,8 @@
 from fastapi import Depends, FastAPI, Request
 from fastapi.security.api_key import APIKey
 # Enable the live feed 
-from multiprocessing import Process, pool
-from bussie_backend.data_collection.livestream import enable_data_stream
+from multiprocessing import Process
+#from bussie_backend.data_collection.livestream import enable_data_stream
 # Enable the client API
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
@@ -18,30 +18,19 @@ It consists of some imports, then starts the webserver.
 It also starts datacollection and a scheduler which runs specific tasks at a specific interval. 
 The combination of these three allows us to run the backend. 
 """
+app = FastAPI()
+
+#Kickstart a FastAPI process
+
+# This adds all the routes in clients_service to this app.
+# This is split up on purpose to keep the app tidy. All routes are in client_service
+app.include_router(client_api.router, prefix="/API/V1")
+@app.get('/')
+def read_root(request: Request):
+    return {"Hello": "World"}
 
 
-def func2():
-    #Kickstart a FastAPI process
-    app = FastAPI()
-
-    # This adds all the routes in clients_service to this app.
-    # This is split up on purpose to keep the app tidy. All routes are in client_service
-    app.include_router(client_api.router, prefix="/API/V1")
-
-    @app.get('/')
-    def read_root(request: Request):
-        return {"Hello": "World"}
-
-# Enable data collection
-# This background task collects all location information and stores in in a database
-pool = Pool()
-
-p1 = Process(target=enable_data_stream)
-
-
-
-
-# Have maintanence scheduled
+# Hae maintanence scheduled
 # We have specific recurring tasks running that keep the application nice and tidy
 """
 scheduler = BackgroundScheduler()
@@ -55,3 +44,5 @@ scheduler.add_job(Every_day, 'interval', hours=24)
 # This background task collects all location information and stores in in a database
 scheduler.start()
 """
+
+#enable_data_stream()
