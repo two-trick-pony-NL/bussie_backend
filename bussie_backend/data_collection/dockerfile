@@ -1,6 +1,7 @@
 # Set base image (host OS)
 FROM python:3.10-buster
 
+EXPOSE 8080/tcp
 # Set the working directory in the container
 WORKDIR /data_collection
 
