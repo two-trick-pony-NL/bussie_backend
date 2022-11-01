@@ -1,23 +1,16 @@
 
-from fastapi import Depends, FastAPI, Request
-from fastapi.security.api_key import APIKey
+from fastapi import FastAPI, Request
 # Enable the live feed 
-from multiprocessing import Process
 from bussie_backend.data_collection.livestream import worker
 # Enable the client API
 from bussie_backend.client_service import client_api
 # Import modules to run on an interval
 from apscheduler.schedulers.background import BackgroundScheduler
 #from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
-
 import uvicorn
 import multiprocessing
 import time
-import zmq
-import xml.etree.ElementTree as ET
-from gzip import GzipFile
-from io import BytesIO
-from fastapi import FastAPI
+
 
 app = FastAPI()
 #Kickstart a FastAPI process
