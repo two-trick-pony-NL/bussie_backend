@@ -4,12 +4,14 @@ import zmq
 from time import sleep, time
 import xml.etree.ElementTree as ET
 
+"""
 context = zmq.Context()
 subscriber = context.socket(zmq.SUB)
 subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
 subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
+"""
 
 while True:
     print("Still running")
