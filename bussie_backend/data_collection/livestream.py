@@ -37,6 +37,7 @@ def worker():
         # compressed as bytes
         # This unpacks this and stores it in contents variable
             contents = GzipFile('', 'r', 0, BytesIO(multipart[1])).read()
+            #print(contents)
             root = ET.fromstring(contents)
             """print("\n\n##### New GPS Location Received #####")
             # More comments
@@ -61,7 +62,7 @@ def worker():
             lat = latlon[0]
             lon = latlon[1]
             line = {'linenumber': root[4][0][1].text, 'longitude': lon, 'latitude':lat}
-            payload[root[4][0][1].text] = line
+            payload[root[4][0][3].text] = line
             #print(payload)
             # Serializing json
             json_object = json.dumps(payload, indent=4)
