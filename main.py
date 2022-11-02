@@ -21,6 +21,7 @@ app.include_router(client_api.router, prefix="/API/V1")
 # TO DO: replace with real homepage
 @app.get("/")
 async def root():
+    print("request on /")
     return {"message": "Hello World"}
 
 #Define server function
