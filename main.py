@@ -7,6 +7,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import uvicorn
 import multiprocessing
 import time
+from bussie_backend.calculations.Rijksdriekhoek_To_LatLon import convert
+
 
 # Defining the fastapi object
 app = FastAPI()
@@ -28,6 +30,7 @@ def server():
 # starting all processes here
 if __name__ == '__main__':
     # Runs api server and datastream worker in separate processes
+    print("Starting the Webserver")
     webserver = multiprocessing.Process(target=server)
     webserver.start()
     print("Starting the Datastream")

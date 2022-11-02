@@ -4,22 +4,16 @@ import string
 from fastapi import Depends
 import zmq
 import xml.etree.ElementTree as ET
-
-from bussie_backend.database import crud, models, schemas
-from sqlalchemy.orm import Session
-from ..database.database import SessionLocal, engine
-import sqlite3
+from ..calculations.Rijksdriekhoek_To_LatLon import convert
+import json
 
 
-models.Base.metadata.create_all(bind=engine)
+"""
+See documentation on how to use the live feed here: http://data.ndovloket.nl/REALTIME.TXT 
+With a python example: http://htmwiki.nl/#!hackathon/realtime.md 
+"""
 
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+payload = {}
 
 def worker():
     context = zmq.Context()
@@ -39,12 +33,12 @@ def worker():
         multipart = subscriber.recv_multipart()
         address = multipart[0]
         try:
-            # The data is sent gzipped
-            # compressed as bytes
-            # This unpacks this and stores it in contents variable
+        # The data is sent gzipped
+        # compressed as bytes
+        # This unpacks this and stores it in contents variable
             contents = GzipFile('', 'r', 0, BytesIO(multipart[1])).read()
             root = ET.fromstring(contents)
-            print("Updates Received:")
+            """print("\n\n##### New GPS Location Received #####")
             # More comments
             # Gets the timestamp
             print('time', root[3].text)
@@ -52,15 +46,41 @@ def worker():
             print('operator: ', root[4][0][0].text)
             # Gets the line number
             print('line: ', root[4][0][1].text)
-            print('X Coord: ', root[4][0][12].text)
-            print('Y Coord: ', root[4][0][13].text)
-            print(address)
-            print("\n")
+            
+            # Here we convert from RDS (Rijksdriehoek) coordinates we receive
+            # To a lat/lon that we can use in the frontend
+            test = convert(x, y)
+            print('X Coord: ', test[0])
+            print('Y Coord: ', test[1])
+            print("Source: ", address)
+            print("\n\n##### ##### ##### ##### #####")
+            print("\n")"""
+            x = int(root[4][0][12].text)
+            y = int(root[4][0][13].text)
+            latlon = convert(x, y)
+            lat = latlon[0]
+            lon = latlon[1]
+            line = {'linenumber': root[4][0][1].text, 'longitude': lat, 'latitude':lon}
+            payload[root[4][0][1].text] = line
+            #print(payload)
+            # Serializing json
+            json_object = json.dumps(payload, indent=4)
 
+            # Writing to sample.json
+            with open("vehiclelocations.json", "w") as outfile:
+                outfile.write(json_object)
+
+        # In case no location is known we'll print that
         except:
-            print('\n\n############')
-            print('ERROR in latest fetch')
-            print('############\n')
+            """
+            print('X Coord: null')
+            print('Y Coord: null')
+            print("Source: ", address)
+            print("\n\n##### ##### ##### ##### #####")
+            print("\n")"""
 
     subscriber.close()
     context.term()
+
+def send_all_location():
+    return payload
