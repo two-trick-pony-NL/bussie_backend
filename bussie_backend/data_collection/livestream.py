@@ -60,7 +60,7 @@ def worker():
             latlon = convert(x, y)
             lat = latlon[0]
             lon = latlon[1]
-            line = {'linenumber': root[4][0][1].text, 'longitude': lat, 'latitude':lon}
+            line = {'linenumber': root[4][0][1].text, 'longitude': lon, 'latitude':lat}
             payload[root[4][0][1].text] = line
             #print(payload)
             # Serializing json

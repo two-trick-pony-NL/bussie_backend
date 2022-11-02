@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request
 from bussie_backend.data_collection.livestream import worker
 from bussie_backend.client_service import client_api
 from apscheduler.schedulers.background import BackgroundScheduler
-#from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
+from utils.recurring_functions.background_tasks import Every_minute, Every_fifteen_minutes, Every_hour, Every_day
 import uvicorn
 import multiprocessing
 import time
