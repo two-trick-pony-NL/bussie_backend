@@ -37,25 +37,9 @@ def worker():
         # compressed as bytes
         # This unpacks this and stores it in contents variable
             contents = GzipFile('', 'r', 0, BytesIO(multipart[1])).read()
+            #Contents gives you raw XML output. Root is a parsed version
             #print(contents)
             root = ET.fromstring(contents)
-            """print("\n\n##### New GPS Location Received #####")
-            # More comments
-            # Gets the timestamp
-            print('time', root[3].text)
-            # Gets the operator of this transport
-            print('operator: ', root[4][0][0].text)
-            # Gets the line number
-            print('line: ', root[4][0][1].text)
-            
-            # Here we convert from RDS (Rijksdriehoek) coordinates we receive
-            # To a lat/lon that we can use in the frontend
-            test = convert(x, y)
-            print('X Coord: ', test[0])
-            print('Y Coord: ', test[1])
-            print("Source: ", address)
-            print("\n\n##### ##### ##### ##### #####")
-            print("\n")"""
             x = int(root[4][0][12].text)
             y = int(root[4][0][13].text)
             latlon = convert(x, y)
@@ -63,22 +47,13 @@ def worker():
             lon = latlon[1]
             line = {'linenumber': root[4][0][1].text, 'longitude': lon, 'latitude':lat}
             payload[root[4][0][3].text] = line
-            #print(payload)
-            # Serializing json
             json_object = json.dumps(payload, indent=4)
-
             # Writing to sample.json
             with open("vehiclelocations.json", "w") as outfile:
                 outfile.write(json_object)
-
         # In case no location is known we'll print that
         except:
-            """
-            print('X Coord: null')
-            print('Y Coord: null')
-            print("Source: ", address)
-            print("\n\n##### ##### ##### ##### #####")
-            print("\n")"""
+            """Do nothing"""
 
     subscriber.close()
     context.term()
