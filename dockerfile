@@ -16,7 +16,6 @@ RUN pip install -r requirements.txt
 # Copy the content of the local src directory to the working directory
 COPY Infrastructure ./Infrastructure
 COPY main.py .
-COPY static ./static
 COPY bussie_backend ./bussie_backend
 # Specify the command to run on container start
 ENTRYPOINT ["./Infrastructure/gunicorn.sh"]
