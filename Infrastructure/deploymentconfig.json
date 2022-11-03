@@ -4,7 +4,7 @@
   "ports": {"8000": "HTTP", "80": "HTTP"}
 },
 "bussie-cache": {
-  "image": "https://hub.docker.com/_/redis",
+  "image": "redis/redis-stack-server:latest",
   "ports": {"6379": "HTTP"}
 }
 }
