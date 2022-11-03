@@ -10,5 +10,6 @@ sqlalchemy
 apscheduler==3.9.1
 pyzmq==24.0.1
 zmq==0.0.0
+redis
 
 

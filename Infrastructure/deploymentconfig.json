@@ -3,7 +3,7 @@
   "image": ":bussie.bussie-backend.latest",
   "ports": {"8000": "HTTP", "80": "HTTP"}
 },
-"bussie-cache": {
+"bussie-redis-cache": {
   "image": "redis/redis-stack-server:latest",
   "ports": {"6379": "HTTP"}
 }

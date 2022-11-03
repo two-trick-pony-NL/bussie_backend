@@ -8,8 +8,13 @@ from ..data_collection.livestream import send_all_location, payload
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 import json
+import redis
+from redis.commands.json.path import Path
+
 
 from fastapi import APIRouter
+rd = redis.Redis(host='localhost', port=6379, db=0)
+
 
 router = APIRouter()
 models.Base.metadata.create_all(bind=engine)
@@ -47,8 +52,15 @@ async def create_stop(stop: schemas.StopCreate,
 
 @router.get("/get_vehicles")
 async def get_vehicle_location():
-    print("request on /get_vehicles")
-    f = open('vehiclelocations.json')
-    data = json.load(f)
-    f.close()
-    return data
+    if rd.exists('cache_vehiclelist'):
+        print("request on /get_vehicles -- answered from cache")
+        return rd.json().get('cache_vehiclelist')
+    else:
+        response = {}
+        for key in rd.keys('*'):
+            vehicle = rd.json().get(key.decode('utf-8'))
+            response[vehicle['unique_vehicle_identifier']] = vehicle 
+        rd.json().set('cache_vehiclelist', Path.root_path(), response)
+        rd.expire('cache_vehiclelist', 5)
+        print("request on /get_vehicles -- recalculated")
+        return response
