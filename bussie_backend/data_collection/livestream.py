@@ -51,7 +51,7 @@ def worker():
             latlon = convert(x, y)
             ##### NEW SECTION
             #Creating new unique identifier of the vehicle which is: day + journey number + vehiclenumber
-            unique_vehicle_identifier = str(root[4][0][2].text)+'_journey_'+str(root[4][0][3].text) +'_line_'+ str(root[4][0][1].text)'__vehicle__'+ str(root[4][0][9].text)
+            unique_vehicle_identifier = str(root[4][0][2].text)+'_journey_'+str(root[4][0][3].text) +'_line_'+ str(root[4][0][1].text)+'__vehicle__'+ str(root[4][0][9].text)
             update = {
                 'unique_vehicle_identifier': unique_vehicle_identifier,
                 'dataownercode':root[4][0][0].text,
