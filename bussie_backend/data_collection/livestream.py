@@ -70,7 +70,7 @@ def worker():
                 'since': root[4][0][11].text,
                 }
             rd.json().set(unique_vehicle_identifier, Path.root_path(), update)
-            rd.expire(unique_vehicle_identifier, 3600)
+            rd.expire(unique_vehicle_identifier, 120)
     # In case no location is known we'll print that
         except:
             """Do nothing"""
