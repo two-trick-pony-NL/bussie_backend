@@ -50,7 +50,10 @@ async def create_stop(stop: schemas.StopCreate,
     print("request on /add_stops_to_database")
     return crud.create_stop(db=db, stop=stop)
 
+
 @router.get("/get_vehicles")
+# We only calculate the new location every 5 seconds and otherwise return a cached version 
+# of the list of vehicles we stored. 
 async def get_vehicle_location():
     if rd.exists('cache_vehiclelist'):
         print("request on /get_vehicles -- answered from cache")
