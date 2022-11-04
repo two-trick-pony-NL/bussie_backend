@@ -1,5 +1,7 @@
 # Bussie -- komt zo
 Bussie helps you get from A to B by sharing the live location of your next bus, tram or train!
+<img width="1073" alt="Screenshot 2022-11-04 at 12 36 42" src="https://user-images.githubusercontent.com/71013416/199963544-c59dc622-a4c4-4b05-874c-94fa765c2d54.png">
+
 
 # Goal
 The idea is that while walking to the platform for a trip with the bus, you can see where your bus is right now and as a result decide whether you want to grab a cup of coffee or that the bus is too close and you better hurry
