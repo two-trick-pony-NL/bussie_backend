@@ -6,9 +6,9 @@ from ..database.database import SessionLocal, engine
 from ..calculations.calculate_closest_station import calculate_closest_station
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-import json
 import redis
 from redis.commands.json.path import Path
+from termcolor import colored
 
 
 from fastapi import APIRouter
@@ -28,25 +28,28 @@ def get_db():
 
 @router.get('/')
 async def read_root(request: Request):
-    print("request on /")
+    print(colored('request', 'green'), colored('on /', 'white'))
+
     return {"Hello": "World"}
 
 @router.get('/AWSHealthCheck')
 async def read_root(request: Request):
-    print("request on /AWSHealthCheck")
+    print(colored('Healtcheck', 'green'), colored('By AWS', 'white'))
+
     return {"Status": "Up And Running"}
 
 # Pass the parameters for this function
 # like so: http://127.0.0.1:8000/get_closest_stations/?latitude=20?longitude=20
 @router.get('/get_closest_stations/')
 async def get_closest_station(latitude: float, longitude: float | None = None):
-    print("request on /get_closest_stations")
+    print(colored('request', 'green'), colored('on /get_closest_stations', 'white'))
     return calculate_closest_station(latitude, longitude)
 
 @router.post("/add_stops_to_database/", response_model=schemas.Stop)
 async def create_stop(stop: schemas.StopCreate,
                 db: Session = Depends(get_db)):
-    print("request on /add_stops_to_database")
+    print(colored('request', 'green'), colored('on /add_stops_to_database', 'white'))
+
     return crud.create_stop(db=db, stop=stop)
 
 
@@ -55,7 +58,8 @@ async def create_stop(stop: schemas.StopCreate,
 # of the list of vehicles we stored. 
 async def get_vehicle_location():
     if rd.exists('cache_vehiclelist'):
-        print("request on /get_vehicles -- answered from cache")
+        print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('From Cache', 'blue'))
+
         return rd.json().get('cache_vehiclelist')
     else:
         response = {}
@@ -64,5 +68,6 @@ async def get_vehicle_location():
             response[vehicle['unique_vehicle_identifier']] = vehicle 
         rd.json().set('cache_vehiclelist', Path.root_path(), response)
         rd.expire('cache_vehiclelist', 5)
-        print("request on /get_vehicles -- recalculated")
+        print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'))
+
         return response

@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 from ..calculations.Rijksdriekhoek_To_LatLon import convert
 from redis.commands.json.path import Path
 from .parse_store_data import parse_bus, parse_train
+from termcolor import colored
 
 
 
@@ -43,5 +44,6 @@ def worker():
         parse_bus(data)
         parse_train(data)
         if counter == 0:
-            print("📬 First data received and stored to Redis")
+            print(colored('📬 First data received', 'green'), colored('-- Storing in Redis', 'white'))
+
             counter = counter + 1

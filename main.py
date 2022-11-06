@@ -7,7 +7,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import uvicorn
 import multiprocessing
 import time
-from bussie_backend.calculations.Rijksdriekhoek_To_LatLon import convert
+from termcolor import colored
 
 
 # Defining the fastapi object
@@ -21,7 +21,7 @@ app.include_router(client_api.router, prefix="/API/V1")
 # TO DO: replace with real homepage
 @app.get("/")
 async def root():
-    print("request on /")
+    print(colored('request', 'green'), colored('on /', 'white'))
     return {"message": "Hello World"}
 
 #Define server function
@@ -31,10 +31,11 @@ def server():
 # starting all processes here
 if __name__ == '__main__':
     # Runs api server and datastream worker in separate processes
-    print("🌍 Starting the Webserver")
+    print(colored('🌍 Started the Webserver', 'green'), colored('-- Listening for requests', 'white'))
     webserver = multiprocessing.Process(target=server)
     webserver.start()
-    print("📥 Starting the Datastream")
+    print(colored('📥 Started the datastream', 'green'), colored('-- Listening for Vehicle position data', 'white'))
+
     time.sleep(1)  # Wait for server to start
     datastream = multiprocessing.Process(target=worker)
     datastream.start()
