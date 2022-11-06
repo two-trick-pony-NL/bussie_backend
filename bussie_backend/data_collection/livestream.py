@@ -23,11 +23,13 @@ def worker():
     subscriber = context.socket(zmq.SUB)
     subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/ARR/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/CXX/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/GVB/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/EBS/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/OPENOV/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/QBUZZ/KV6posinfo")
+    subscriber.setsockopt(zmq.SUBSCRIBE, b"/DITP/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/SYNTUS/KV6posinfo")
     # Infoplus contains all NS train info
     subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7664")
