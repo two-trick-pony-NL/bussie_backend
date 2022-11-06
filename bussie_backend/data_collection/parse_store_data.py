@@ -7,6 +7,8 @@ import xml.etree.ElementTree as ET
 from ..calculations.Rijksdriekhoek_To_LatLon import convert
 import redis
 from redis.commands.json.path import Path
+from datetime import date
+
 
 # Creating our redis server
 rd = redis.Redis(host='localhost', port=6379, db=0)
@@ -45,6 +47,7 @@ def parse_bus(multipart):
             'longitude': latlon[1],
             'punctuality': root[4][0][10].text,
             'since': root[4][0][11].text,
+            'speed': 'unknown'
             }
         rd.json().set(unique_vehicle_identifier, Path.root_path(), update)
         rd.expire(unique_vehicle_identifier, 120)
@@ -65,18 +68,18 @@ def parse_train(multipart):
         i = 0
         for _ in root:
             #Creating unique name
-            unique_vehicle_identifier = str(root[i][1][3].text)+'_journey_NONE_line_NONE__vehicle__'+ str(root[i][1][0].text)
+            unique_vehicle_identifier = str(date.today())+'_journey_NONE_line_NONE__vehicle__'+ str(root[i][1][0].text)
             update = {
                 'type_vehicle': 'Train',
-                'unique_vehicle_identifier': unique_vehicle_identifier,
+                'unique_vehicle_identifier': str(unique_vehicle_identifier),
                 'dataownercode':'NS',
                 'lineplanningnumber': 'NULL',
-                'operatingday': root[i][1][3].text,
+                'operatingday': str(date.today()),
                 'journeynumber': "NULL",
                 'reinforcementnumber': "NULL",
                 'userstopcode': "NULL",
                 'passagesequencenumber': "NULL",
-                'timestamp': root[i][1][3].text,
+                'timestamp': str(root[i][1][3].text),
                 'source': "NS",
                 'vehiclenumber': root[i][1][0].text,
                 'latitude': root[i][1][10].text,

@@ -62,13 +62,13 @@ async def create_stop(stop: schemas.StopCreate,
 async def get_vehicle_location():
     if rd.exists('cache_vehiclelist'):
         print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('From Cache', 'blue'))
-
         return rd.json().get('cache_vehiclelist')
     else:
         response = {}
         for key in rd.keys('*'):
             vehicle = rd.json().get(key.decode('utf-8'))
-            response[vehicle['unique_vehicle_identifier']] = vehicle
+            key = vehicle['unique_vehicle_identifier']
+            response[str(key)] = vehicle
         rd.json().set('cache_vehiclelist', Path.root_path(), response)
         rd.expire('cache_vehiclelist', 5)
         print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'))
