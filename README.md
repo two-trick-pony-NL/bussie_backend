@@ -1,6 +1,6 @@
 # Bussie -- komt zo
 Bussie helps you get from A to B by sharing the live location of your next bus, tram or train!
-<img width="1073" alt="Screenshot 2022-11-04 at 12 36 42" src="https://user-images.githubusercontent.com/71013416/199963544-c59dc622-a4c4-4b05-874c-94fa765c2d54.png">
+<img width="1402" alt="Screenshot 2022-11-06 at 19 18 26" src="https://user-images.githubusercontent.com/71013416/200188012-9c79d78a-bc32-4392-94b6-82e4d0010890.png">
 
 
 # Goal
