@@ -1,10 +1,4 @@
-from gzip import GzipFile
-from io import BytesIO
-from fastapi import Depends
 import zmq
-import xml.etree.ElementTree as ET
-from ..calculations.Rijksdriekhoek_To_LatLon import convert
-from redis.commands.json.path import Path
 from .parse_store_data import parse_bus, parse_train
 from termcolor import colored
 
@@ -45,5 +39,7 @@ def worker():
         parse_train(data)
         if counter == 0:
             print(colored('📬 First data received', 'green'), colored('-- Storing in Redis', 'white'))
-
-            counter = counter + 1
+        # Simple counter that prints every 1000 entries so we'll keep a heartbeat in the logs. 
+        counter = counter + 1
+        if counter % 100 == 0:
+            print(colored('📝 Data received', 'green'), colored('-- '+str(counter)+' datapoints processed', 'white'))
