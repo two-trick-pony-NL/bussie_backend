@@ -8,6 +8,10 @@ import uvicorn
 import multiprocessing
 import time
 from termcolor import colored
+import redis
+
+rd = redis.Redis(host='localhost', port=6379, db=0)
+
 
 
 # Defining the fastapi object
@@ -35,7 +39,6 @@ if __name__ == '__main__':
     webserver = multiprocessing.Process(target=server)
     webserver.start()
     print(colored('📥 Started the datastream', 'green'), colored('-- Listening for Vehicle position data', 'white'))
-
     time.sleep(1)  # Wait for server to start
     datastream = multiprocessing.Process(target=worker)
     datastream.start()

@@ -5,6 +5,7 @@ from fastapi import Depends
 import zmq
 import xml.etree.ElementTree as ET
 from ..calculations.Rijksdriekhoek_To_LatLon import convert
+from ..calculations.get_lat_lon_from_timingpoint import find_lat_lon
 import redis
 from redis.commands.json.path import Path
 from datetime import date
@@ -54,7 +55,38 @@ def parse_bus(multipart):
 # In case no location is known we'll print that
     except Exception as e:
         """Nothing"""
-
+        """try:
+            unique_vehicle_identifier = str(root[4][0][2].text)+'_journey_'+str(root[4][0][3].text) +'_line_'+ str(root[4][0][1].text)+'__vehicle__'+ str(root[4][0][9].text)
+            find_location = find_lat_lon(root[4][0][5].text)
+            lat = find_location[0]
+            lon = find_location[1]
+        except:
+            unique_vehicle_identifier = 'Unknown'
+            lat = 0
+            lon = 0
+        update = {
+            'type_vehicle': 'BusOrTram',
+            'unique_vehicle_identifier': unique_vehicle_identifier,
+            'dataownercode':root[4][0][0].text,
+            'lineplanningnumber': root[4][0][1].text,
+            'operatingday': root[4][0][2].text,
+            'journeynumber': root[4][0][3].text,
+            'reinforcementnumber': root[4][0][4].text,
+            'userstopcode': root[4][0][5].text,
+            'passagesequencenumber': root[4][0][6].text,
+            'timestamp': root[4][0][7].text,
+            'source': 'Own Calculation',
+            'vehiclenumber': 'unknown',
+            'latitude': lat,
+            'longitude': lon,
+            'punctuality': 'unknown',
+            'since': 'NULL',
+            'speed': 'unknown'
+            }
+        rd.json().set(unique_vehicle_identifier, Path.root_path(), update)
+        rd.expire(unique_vehicle_identifier, 10)"""
+        
+        
 
 
 def parse_train(multipart):

@@ -41,5 +41,5 @@ def worker():
             print(colored('📬 First data received', 'green'), colored('-- Storing in Redis', 'white'))
         # Simple counter that prints every 1000 entries so we'll keep a heartbeat in the logs. 
         counter = counter + 1
-        if counter % 100 == 0:
+        if counter % 500 == 0:
             print(colored('📝 Data received', 'green'), colored('-- '+str(counter)+' datapoints processed', 'white'))
