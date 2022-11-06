@@ -31,10 +31,10 @@ def server():
 # starting all processes here
 if __name__ == '__main__':
     # Runs api server and datastream worker in separate processes
-    print("Starting the Webserver")
+    print("🌍 Starting the Webserver")
     webserver = multiprocessing.Process(target=server)
     webserver.start()
-    print("Starting the Datastream")
+    print("📥 Starting the Datastream")
     time.sleep(1)  # Wait for server to start
     datastream = multiprocessing.Process(target=worker)
     datastream.start()
