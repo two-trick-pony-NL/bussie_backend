@@ -16,7 +16,7 @@ def worker():
     #Defining the streams we'll be listening on
     # Bison is most buses
     subscriber = context.socket(zmq.SUB)
-    subscriber.connect("tcp://pubsub.ndovloket.nl:7658")
+    subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7658")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/ARR/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/CXX/KV6posinfo")
@@ -27,7 +27,7 @@ def worker():
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/DITP/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/SYNTUS/KV6posinfo")
     # Infoplus contains all NS train info
-    subscriber.connect("tcp://pubsub.ndovloket.nl:7664")
+    subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7664")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
     
     #bison.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
