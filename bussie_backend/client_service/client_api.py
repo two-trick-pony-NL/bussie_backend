@@ -4,7 +4,6 @@ from bussie_backend.database import crud, models, schemas
 from sqlalchemy.orm import Session
 from ..database.database import SessionLocal, engine
 from ..calculations.calculate_closest_station import calculate_closest_station
-from ..data_collection.livestream import send_all_location, payload
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 import json
