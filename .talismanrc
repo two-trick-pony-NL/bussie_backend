@@ -1,5 +1,5 @@
 
-threshold: medium
+threshold: high
 fileignoreconfig:
 - filename: .github/workflows/CI.yml
   checksum: 7e727e8079f0a389a7e6cd0479cb0ce076231aeeee172af5ac2f710a78c2e1fe
