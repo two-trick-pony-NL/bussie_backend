@@ -1,10 +1,12 @@
 
-threshold: medium
+threshold: high
 fileignoreconfig:
 - filename: .github/workflows/CI.yml
-  checksum: 08ecdd4d4ec2a1676b32e4c36344b77050027ace9adde7906ccec1d21a1667cb
+  checksum: 7e727e8079f0a389a7e6cd0479cb0ce076231aeeee172af5ac2f710a78c2e1fe
 - filename: '*.yml'
   ignore_detectors: [filename] 
+- filename: bussie_backend/client_service/client_api.py
+  checksum: e0e5c8c7217c0b0d52d02fc7fac3ae0bc8109568f93a5675d3d4ffda5fd1e68
 
 scopeconfig:
   - scope: yml

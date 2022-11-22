@@ -65,12 +65,15 @@ async def get_vehicle_location():
         return rd.json().get('cache_vehiclelist')
     else:
         response = {}
-        for key in rd.keys('*'):
-            vehicle = rd.json().get(key.decode('utf-8'))
-            key = vehicle['unique_vehicle_identifier']
-            response[str(key)] = vehicle
-        rd.json().set('cache_vehiclelist', Path.root_path(), response)
-        rd.expire('cache_vehiclelist', 5)
-        print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'))
-
-        return response
+        try:
+            for key in rd.keys('*'):
+                vehicle = rd.json().get(key.decode('utf-8'))
+                key = vehicle['unique_vehicle_identifier']
+                response[str(key)] = vehicle
+            rd.json().set('cache_vehiclelist', Path.root_path(), response)
+            rd.expire('cache_vehiclelist', 5)
+            print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'))
+            return response
+        except:
+            """pass"""
+            print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('hit except block', 'red'))
