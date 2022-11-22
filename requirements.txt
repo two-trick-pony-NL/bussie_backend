@@ -12,5 +12,5 @@ pyzmq==24.0.1
 zmq==0.0.0
 redis
 termcolor
-
+setuptools==65.5.1
 
