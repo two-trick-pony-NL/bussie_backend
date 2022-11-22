@@ -1,3 +1,4 @@
+
 threshold: medium
 fileignoreconfig:
 - filename: .github/workflows/CI.yml
