@@ -88,9 +88,9 @@ jobs:
       - name: pull-request
         uses: repo-sync/pull-request@v2
         with:
-          destination_branch: "master"
+          destination_branch: "main"
           assignees: "two-trick-pony-NL"
-          pr_title: "Pulling ${{ github.ref }} into master"
-          pr_body: "🎉All Checks passed, so the CI opened this pull request. Check out the changes here: "
+          pr_title: "🎉 Pulling ${{ github.ref }} into main"
+          pr_body: "All Checks passed, so the CI opened this pull request. Check out the changes here: "
           pr_label: "automatic-pullrequest"
           github_token: ${{ secrets.GH }} 
