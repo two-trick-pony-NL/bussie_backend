@@ -2,7 +2,7 @@
 threshold: medium
 fileignoreconfig:
 - filename: .github/workflows/CI.yml
-  checksum: 7d8b743bc4d62611a102ac69b25e43decf6e40e66eb8c234f0f48cff1d9858d0
+  checksum: 08ecdd4d4ec2a1676b32e4c36344b77050027ace9adde7906ccec1d21a1667cb
 - filename: '*.yml'
   ignore_detectors: [filename] 
 
