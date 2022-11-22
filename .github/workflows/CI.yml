@@ -45,7 +45,7 @@ jobs:
         sudo pip3 install --upgrade pip
         sudo pip3 install -r requirements.txt
     - name: Running the actual tests
-      run: ls
+      run: pytest
  
   linter: 
     name: 🎗 Linter
