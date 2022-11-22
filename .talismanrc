@@ -1,6 +1,6 @@
 fileignoreconfig:
 - filename: .github/workflows/CI.yml
-  checksum: 943da8f9590616ecee23c90227dcbcfb0f302f672dbb26d4570402864f474406
+  checksum: 143995676a28a308afb4c3940743835096f3b888789cbdd439bbc365bfe9f3b5
 - filename: '*.yml'
   ignore_detectors: [filename] 
 
