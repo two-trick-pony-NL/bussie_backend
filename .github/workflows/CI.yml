@@ -1,0 +1,98 @@
+
+name: 🧪 Automated checks
+
+on:
+  push:
+    branches:    
+      - '**'        # matches every branch
+      - '!main'   # excludes master
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: eu-central-1
+  AWS_LIGHTSAIL_SERVICE_NAME: citizen-science-nl 
+jobs:  
+  tests:
+    name: 🔬 Running Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🗂  Getting code from Github
+      uses: actions/checkout@v2
+    - name: ⚙️  Updating to the latest versions
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq unzip
+    - name: 🏢 Install Amazon Client
+      run: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip awscliv2.zip
+        sudo ./aws/install || true
+        aws --version
+        curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "lightsailctl"
+        sudo mv "lightsailctl" "/usr/local/bin/lightsailctl"
+        sudo chmod +x /usr/local/bin/lightsailctl
+    - name: 🤐 Log in to AWS Lightsail with Secrets
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: Getting the env variables for the app
+      run: aws s3 cp s3://env-variables-citizen-science-nl/local.env ./src/eucs_platform/settings
+    - name: Installing dependancies
+      run: |
+        sudo pip3 install --upgrade pip
+        sudo pip3 install -r requirements.txt
+    - name: Running the actual tests
+      run: ls
+ 
+  linter: 
+    name: 🎗 Linter
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ricardochaves/python-lint@v1.4.0
+      with:
+        python-root-list: "python_alelo tests"
+        use-pylint: false
+        use-pycodestyle: false
+        use-flake8: false
+        use-black: false
+        use-mypy: false
+        use-isort: false
+  security:
+    name: 🚦 Check vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.8@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  ScanSensitiveData:
+    name: 🕵🏼‍♀️ Scanning for sensitive data in code
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Detect secrets with Talisman in incoming commits
+      uses: carhartl/talisman-secrets-scan-action@v1.2.1
+  pull-request:
+    needs: [tests,linter, security, ScanSensitiveData]
+    name: 🔃 Creating Pull request to merge with Master
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "master"
+          assignees: "two-trick-pony-NL"
+          pr_title: "Pulling ${{ github.ref }} into master"
+          pr_body: "🎉All Checks passed, so the CI opened this pull request. Check out the changes here: "
+          pr_label: "automatic-pullrequest"
+          github_token: ${{ secrets.PETERVANDOORN_GH_TOKEN }} 
+
+          
