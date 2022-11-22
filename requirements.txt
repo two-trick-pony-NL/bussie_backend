@@ -13,4 +13,6 @@ zmq==0.0.0
 redis
 termcolor
 setuptools==65.5.1
+pytest
+
 
