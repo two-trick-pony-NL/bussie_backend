@@ -36,6 +36,9 @@ def server():
 if __name__ == '__main__':
     # Runs api server and datastream worker in separate processes
     print(colored('🌍 Started the Webserver', 'green'), colored('-- Listening for requests', 'white'))
+    print(colored('👻 Tip', 'yellow'), colored('-- If you are running locally start a redis container using this command:', 'white'))
+
+    print(colored('          docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest', 'blue'))
     webserver = multiprocessing.Process(target=server)
     webserver.start()
     print(colored('📥 Started the datastream', 'green'), colored('-- Listening for Vehicle position data', 'white'))
