@@ -57,10 +57,11 @@ jobs:
         python-root-list: "python_alelo tests"
         use-pylint: false
         use-pycodestyle: false
-        use-flake8: false
+        use-flake8: true
         use-black: false
         use-mypy: false
         use-isort: false
+        extra-flake8-options: "--exit-zero"
   security:
     name: 🚦 Check vulnerabilities
     runs-on: ubuntu-latest
