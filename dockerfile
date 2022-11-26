@@ -18,4 +18,4 @@ COPY Infrastructure ./Infrastructure
 COPY main.py .
 COPY bussie_backend ./bussie_backend
 # Specify the command to run on container start
-ENTRYPOINT ["uvicorn", "main:app"]
+ENTRYPOINT ["python3", "main.py"]
