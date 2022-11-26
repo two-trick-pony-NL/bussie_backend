@@ -4,7 +4,7 @@
   "ports": {"8000": "HTTP"}
 },
 "bussie-redis-cache": {
-  "image": "redis/redis-stack-server:latest",
+  "image": "redis/redis-stack:latest",
   "ports": {"6379": "HTTP", "8001":"HTTP"}
 },
 "bussie-nginx-reverse-proxy": {
