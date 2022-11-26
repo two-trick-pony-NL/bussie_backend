@@ -8,7 +8,7 @@
   "ports": {"6379": "HTTP"}
 },
 "bussie-nginx-reverse-proxy": {
-  "image": ":bussie.nginx-reverse-proxy:latest",
+  "image": ":bussie.nginx-reverse-proxy.latest",
   "ports": {"8001": "HTTP"}
 }
 }

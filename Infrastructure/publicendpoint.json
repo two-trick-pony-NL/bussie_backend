@@ -1,12 +1,12 @@
 {
-  "containerName": "bussie-backend",
+  "containerName": "bussie-nginx-reverse-proxy",
   "containerPort": 80,
   "healthCheck": {
     "healthyThreshold": 2,
     "unhealthyThreshold": 10,
     "timeoutSeconds": 60,
     "intervalSeconds": 300,
-    "path": "/API/V1/AWSHealthCheck",
+    "path": "/healthcheck",
     "successCodes": "200-299"
 }
 }
