@@ -7,4 +7,9 @@
   "image": "redis/redis-stack-server:latest",
   "ports": {"6379": "HTTP"}
 }
+,
+"bussie-nginx-reverse-proxy": {
+  "image": ":bussie.nginx-reverse-proxy:latest",
+  "ports": {"8001": "HTTP"}
+}
 }
