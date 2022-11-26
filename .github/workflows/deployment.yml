@@ -43,7 +43,7 @@ jobs:
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
             --label nginx \
-            --image nginx:latest
+            --image nginx-reverse-proxy:latest
       - name: =========== All done. Cleaning up ♻️  ===========
         run: ls      
   buildingimage:
