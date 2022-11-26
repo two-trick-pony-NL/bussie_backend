@@ -42,7 +42,7 @@ jobs:
           aws lightsail push-container-image \
             --region ${{ env.AWS_REGION }} \
             --service-name ${service_name} \
-            --label nginx \
+            --label nginx-reverse-proxy \
             --image nginx-reverse-proxy:latest
       - name: =========== All done. Cleaning up ♻️  ===========
         run: ls      
