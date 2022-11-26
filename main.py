@@ -30,7 +30,7 @@ async def root():
 
 #Define server function
 def server():
-    uvicorn.run(app, host="0.0.0.0", port=80)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 # starting all processes here
 if __name__ == '__main__':
