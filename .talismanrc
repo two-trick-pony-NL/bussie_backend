@@ -7,6 +7,9 @@ fileignoreconfig:
   ignore_detectors: [filename] 
 - filename: bussie_backend/client_service/client_api.py
   checksum: e0e5c8c7217c0b0d52d02fc7fac3ae0bc8109568f93a5675d3d4ffda5fd1e68
+- filename: .github/workflows/deployment.yml
+  checksum: e0bcf9b304357148880362f2f3960cfa11b7f6da19cd29c36bb209a6acc4be0c
+
 
 scopeconfig:
   - scope: yml
@@ -17,8 +20,3 @@ custom_severities:
 - detector: HexContent
   severity: medium
 
-
-allowed_patterns:
-- keyword
-- aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-- aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}   
