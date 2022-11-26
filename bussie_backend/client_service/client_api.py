@@ -1,5 +1,6 @@
 
 from fastapi import Depends, Request
+from fastapi.responses import JSONResponse
 from bussie_backend.database import crud, models, schemas
 from sqlalchemy.orm import Session
 from ..database.database import SessionLocal, engine
@@ -73,7 +74,7 @@ async def get_vehicle_location():
             rd.json().set('cache_vehiclelist', Path.root_path(), response)
             rd.expire('cache_vehiclelist', 5)
             print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'))
-            return response
+            return JSONResponse(content=response)
         except:
             """pass"""
             print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('hit except block', 'red'))
