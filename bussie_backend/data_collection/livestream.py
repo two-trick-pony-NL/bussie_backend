@@ -1,9 +1,6 @@
 import zmq
-from .parse_store_data import parse_bus, parse_train
+from .parse_store_data import parse_data
 from termcolor import colored
-
-
-
 
 """
 See documentation on how to use the live feed here: http://data.ndovloket.nl/REALTIME.TXT 
@@ -26,17 +23,15 @@ def worker():
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/QBUZZ/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/DITP/KV6posinfo")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/SYNTUS/KV6posinfo")
-    # Infoplus contains all NS train info
+    # Infoplus contains all NS train info // we'll split those in the parsing function
     subscriber.connect("tcp://pubsub.besteffort.ndovloket.nl:7664")
     subscriber.setsockopt(zmq.SUBSCRIBE, b"/RIG/NStreinpositiesInterface5")
     
     #bison.setsockopt(zmq.SUBSCRIBE, b"/RIG/KV17cvlinfo")
     counter = 0 
-    while True:
+    while True: # listen until eternity 
         data = subscriber.recv_multipart()
-        # These 2 functions parse the data coming in as the XML formats differ ever so slightly
-        parse_bus(data)
-        parse_train(data)
+        parse_data(data) # If we receive data parse it 
         if counter == 0:
             print(colored('📬 First data received', 'green'), colored('-- Storing in Redis', 'white'))
         # Simple counter that prints every 1000 entries so we'll keep a heartbeat in the logs. 
