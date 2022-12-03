@@ -9,85 +9,42 @@ from ..calculations.get_lat_lon_from_timingpoint import find_lat_lon
 import redis
 from redis.commands.json.path import Path
 from datetime import date
+from termcolor import colored
 
 
 # Creating our redis server
 rd = redis.Redis(host='localhost', port=6379, db=0)
 
-
-def parse_bus(multipart):
-    #address = multipart[0]
-    try:
-        # The data is sent gzipped
-        # compressed as bytes
-        # This unpacks this and stores it in contents variable
-        contents = GzipFile('', 'r', 0, BytesIO(multipart[1])).read()
-        #Contents gives you raw XML output. Root is a parsed version
-        #print(contents)
-        root = ET.fromstring(contents)
-        x = int(root[4][0][12].text)
-        y = int(root[4][0][13].text)
-        latlon = convert(x, y)
-        ##### NEW SECTION
-        #Creating new unique identifier of the vehicle which is: day + journey number + vehiclenumber
-        unique_vehicle_identifier = str(root[4][0][2].text)+'_journey_'+str(root[4][0][3].text) +'_line_'+ str(root[4][0][1].text)+'__vehicle__'+ str(root[4][0][9].text)
-        update = {
-            'type_vehicle': 'BusOrTram',
-            'unique_vehicle_identifier': unique_vehicle_identifier,
-            'dataownercode':root[4][0][0].text,
-            'lineplanningnumber': root[4][0][1].text,
-            'operatingday': root[4][0][2].text,
-            'journeynumber': root[4][0][3].text,
-            'reinforcementnumber': root[4][0][4].text,
-            'userstopcode': root[4][0][5].text,
-            'passagesequencenumber': root[4][0][6].text,
-            'timestamp': root[4][0][7].text,
-            'source': root[4][0][8].text,
-            'vehiclenumber': root[4][0][9].text,
-            'latitude': latlon[0],
-            'longitude': latlon[1],
-            'punctuality': root[4][0][10].text,
-            'since': root[4][0][11].text,
-            'speed': 'unknown'
-            }
-        rd.json().set(unique_vehicle_identifier, Path.root_path(), update)
-        rd.expire(unique_vehicle_identifier, 120)
-# In case no location is known we'll print that
+def parse_data(multipart):
+    contents = GzipFile('', 'r', 0, BytesIO(multipart[1])).read()
+    root = ET.fromstring(contents)
+    try: 
+        for i in root:
+            if root.tag[70:] == 'ArrayOfTreinLocation':
+                parse_train(multipart)
+                pass
+            else:
+                items = len(root[4][0])
+                vehicle_object = {'type_vehicle': 'BusOrTram'} # this is the empty object we'll parse to redis
+                for j in range(0 , items): 
+                    if root[4][0][j].tag[38:] == 'rd-x': # if we have known location data we need to convert rd-xy to lat-lon
+                        x = int(root[4][0][j].text)
+                        y = int(root[4][0][j + 1].text)
+                        latlon = convert(x, y)
+                        vehicle_object['latitude'] = latlon[0]
+                        vehicle_object['longitude'] = latlon[1]
+                    if root[4][0][j].tag[38:] == 'rd-y':
+                        pass # We don't want the rd-y label in our dataset
+                    else:
+                        tag = root[4][0][j].tag[38:] #removing the first 38 characters of the tag
+                        value = root[4][0][j].text  
+                        vehicle_object[tag] = value
+                unique_vehicle_identifier = str(root[4][0][2].text)+'_journey_'+str(root[4][0][3].text) +'_line_'+ str(root[4][0][1].text)
+                rd.json().set(unique_vehicle_identifier, Path.root_path(), vehicle_object)
+                rd.expire(unique_vehicle_identifier, 120)
     except Exception as e:
-        """Nothing"""
-        """try:
-            unique_vehicle_identifier = str(root[4][0][2].text)+'_journey_'+str(root[4][0][3].text) +'_line_'+ str(root[4][0][1].text)+'__vehicle__'+ str(root[4][0][9].text)
-            find_location = find_lat_lon(root[4][0][5].text)
-            lat = find_location[0]
-            lon = find_location[1]
-        except:
-            unique_vehicle_identifier = 'Unknown'
-            lat = 0
-            lon = 0
-        update = {
-            'type_vehicle': 'BusOrTram',
-            'unique_vehicle_identifier': unique_vehicle_identifier,
-            'dataownercode':root[4][0][0].text,
-            'lineplanningnumber': root[4][0][1].text,
-            'operatingday': root[4][0][2].text,
-            'journeynumber': root[4][0][3].text,
-            'reinforcementnumber': root[4][0][4].text,
-            'userstopcode': root[4][0][5].text,
-            'passagesequencenumber': root[4][0][6].text,
-            'timestamp': root[4][0][7].text,
-            'source': 'Own Calculation',
-            'vehiclenumber': 'unknown',
-            'latitude': lat,
-            'longitude': lon,
-            'punctuality': 'unknown',
-            'since': 'NULL',
-            'speed': 'unknown'
-            }
-        rd.json().set(unique_vehicle_identifier, Path.root_path(), update)
-        rd.expire(unique_vehicle_identifier, 10)"""
+        print(e)
         
-        
-
 
 def parse_train(multipart):
     try:
