@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from urllib.request import urlopen
 from .Rijksdriekhoek_To_LatLon import convert
 from termcolor import colored
 
@@ -7,8 +8,8 @@ print(colored('🧮 Calculating lat/lon for each station', 'green'), colored('--
 # Passing the path of the
 # xml document to enable the
 # parsing process
-tree = ET.parse('bussie_backend/calculations/stops.xml')
- 
+with urlopen('https://data.cityofnewyork.us/api/views/25th-nujf/rows.xml') as f:
+    tree = ET.parse(f) 
 # getting the parent tag of
 # the xml document
 root = tree.getroot()
