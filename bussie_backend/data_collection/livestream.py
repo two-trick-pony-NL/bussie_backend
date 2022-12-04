@@ -1,5 +1,5 @@
 import zmq
-from .parse_store_data import parse_data
+from .parse_store_data import parse_train, parse_bus
 from termcolor import colored
 
 """
@@ -31,7 +31,12 @@ def worker():
     counter = 0 
     while True: # listen until eternity 
         data = subscriber.recv_multipart()
-        parse_data(data) # If we receive data parse it 
+        try:
+            parse_bus(data)
+            parse_train(data)
+            #parse_data(data) # If we receive data parse it 
+        except Exception as e:
+            print(e)
         if counter == 0:
             print(colored('📬 First data received', 'green'), colored('-- Storing in Redis', 'white'))
         # Simple counter that prints every 1000 entries so we'll keep a heartbeat in the logs. 
