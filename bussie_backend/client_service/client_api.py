@@ -8,6 +8,7 @@ from ..calculations.calculate_closest_station import calculate_closest_station
 import redis
 from redis.commands.json.path import Path
 from termcolor import colored
+import time
 
 
 from fastapi import APIRouter
@@ -58,23 +59,26 @@ async def create_stop(stop: schemas.StopCreate,
 
 
 @router.get("/get_vehicles")
+@router.get("/vehicles")
 # We only calculate the new location every 5 seconds and otherwise return a cached version
 # of the list of vehicles we stored.
 async def get_vehicle_location():
     if rd.exists('cache_vehiclelist'):
-        print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('From Cache', 'blue'))
+        start_time = time.time()
+        print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('From Cache', 'blue'),'--', (time.time() - start_time)*1000, 'milliseconds')
         return rd.json().get('cache_vehiclelist')
     else:
         response = {}
+        start_time = time.time()
         try:
             for key in rd.keys('*'):
                 vehicle = rd.json().get(key.decode('utf-8'))
-                key = vehicle['unique_vehicle_identifier']
-                response[str(key)] = vehicle
+                response[str(key[2:])] = vehicle
             rd.json().set('cache_vehiclelist', Path.root_path(), response)
             rd.expire('cache_vehiclelist', 5)
-            print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'))
-            return JSONResponse(content=response)
-        except:
+            print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'),'--', (time.time() - start_time)*1000, 'milliseconds')
+            return response
+        except Exception as e:
             """pass"""
             print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('hit except block', 'red'))
+            print(e)
