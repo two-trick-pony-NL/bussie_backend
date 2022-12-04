@@ -1,15 +1,14 @@
-
 from gzip import GzipFile
 from io import BytesIO
 from fastapi import Depends
-import zmq
 import xml.etree.ElementTree as ET
 from ..calculations.Rijksdriekhoek_To_LatLon import convert
-from ..calculations.get_lat_lon_from_timingpoint import find_lat_lon
+from ..calculations.get_lat_lon_from_userstopcode import user_stop_location
 import redis
 from redis.commands.json.path import Path
 from datetime import date
 import random
+
 
 
 # Creating our redis server
@@ -31,7 +30,7 @@ def parse_bus(multipart):
         latlon = convert(x, y)
 
         #Creating new unique identifier of the vehicle which is: day + journey number + vehiclenumber
-        unique_vehicle_identifier = str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text)+'__vehicle__'+ str(root[4][0][9].text)
+        unique_vehicle_identifier = 'A2-'+str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text)+'__vehicle__'+ str(root[4][0][9].text)
         update = {
             'type_vehicle': 'BusOrTram',
             'unique_vehicle_identifier': unique_vehicle_identifier,
@@ -69,7 +68,7 @@ def parse_train(multipart):
         i = 0
         for _ in root:
             #Creating unique name
-            unique_vehicle_identifier = str(date.today())+'_operator_NS_vehicle_'+ str(root[i][1][0].text)
+            unique_vehicle_identifier = 'A1-'+str(date.today())+'_operator_NS_vehicle_'+ str(root[i][1][0].text)
             update = {
                 'type_vehicle': 'Train',
                 'unique_vehicle_identifier': str(unique_vehicle_identifier),
@@ -111,15 +110,18 @@ def parse_unknown_structure(multipart):
                     vehicle_object['longitude'] = latlon[1]
                     vehicle_object['locationsource'] = 'converted_from_RD_to_latlon'
                 if root[4][0][j].tag[38:] == 'userstopcode': # From the userstopcode we can derive a location too. 
-                    vehicle_object['latitude'] = random.uniform(-90.0, 90.0)
-                    vehicle_object['longitude'] = random.uniform(-90.0, 90.0)
-                    vehicle_object['locationsource'] = 'random_until_we_can_derive_from_stop'
+                    userstopcode = root[4][0][j].text
+                    latitude, longitude = user_stop_location(userstopcode)
+                    vehicle_object['latitude'] = latitude
+                    vehicle_object['longitude'] = longitude
+                    vehicle_object['locationsource'] = 'Derived from userstopcode'
+                    vehicle_object['userstopcode'] = root[4][0][j].text
                     #vehicle_object['locationsource'] = 'approximated_from_busstop'
                 else:
                     tag = root[4][0][j].tag[38:] #removing the first 38 characters of the tag
                     value = root[4][0][j].text  
                     vehicle_object[tag] = value
-            unique_vehicle_identifier = str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text) +'_vehicle_'+ str(root[4][0][9].text)
+            unique_vehicle_identifier = 'A3-'+str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text) +'_vehicle_'+ str(root[4][0][9].text)
             rd.json().set(unique_vehicle_identifier, Path.root_path(), vehicle_object)
             rd.expire(unique_vehicle_identifier, 120)
     except:
@@ -140,7 +142,7 @@ def parse_unknown_structure(multipart):
                         value = root[4][0][j].text  
                         vehicle_object[tag] = value
                         vehicle_object['locationsource'] = 'no_information_available'
-                unique_vehicle_identifier = "NO_KNOWN_LOCATION_"+str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text) +'_linenumber_'+ str(root[4][0][1].text)+'_journeynumber_'+ str(root[4][0][3].text)
+                unique_vehicle_identifier = "A0_"+str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text) +'_linenumber_'+ str(root[4][0][1].text)+'_journeynumber_'+ str(root[4][0][3].text)
                 rd.json().set(unique_vehicle_identifier, Path.root_path(), vehicle_object)
                 rd.expire(unique_vehicle_identifier, 120)
         except:
