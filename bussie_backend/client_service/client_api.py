@@ -1,5 +1,6 @@
 
 from fastapi import Depends, Request
+from fastapi.responses import JSONResponse
 from bussie_backend.database import crud, models, schemas
 from sqlalchemy.orm import Session
 from ..database.database import SessionLocal, engine
