@@ -1,3 +1,8 @@
+
+[![🧪 Automated checks](https://github.com/two-trick-pony-NL/bussie_backend/actions/workflows/CI.yml/badge.svg)](https://github.com/two-trick-pony-NL/bussie_backend/actions/workflows/CI.yml)
+
+[![🚀 Production deployment](https://github.com/two-trick-pony-NL/bussie_backend/actions/workflows/deployment.yml/badge.svg?branch=main)](https://github.com/two-trick-pony-NL/bussie_backend/actions/workflows/deployment.yml)
+
 # Bussie -- komt zo
 Bussie helps you get from A to B by sharing the live location of your next bus, tram or train!
 <img width="1402" alt="Screenshot 2022-11-06 at 19 18 26" src="https://user-images.githubusercontent.com/71013416/200188012-9c79d78a-bc32-4392-94b6-82e4d0010890.png">
