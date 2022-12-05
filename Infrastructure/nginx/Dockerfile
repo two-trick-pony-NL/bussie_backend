@@ -6,7 +6,7 @@ FROM nginx:1.19.0-alpine
 
 COPY Infrastructure/nginx/default.conf ./etc/nginx/conf.d/default.conf
 RUN mkdir cache
-RUN sudo chmod -R a+rwX /cache
+RUN sudo chmod 775 cache
 
 
 EXPOSE 80
