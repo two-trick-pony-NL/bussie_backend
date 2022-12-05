@@ -9,6 +9,12 @@ fileignoreconfig:
   checksum: e0e5c8c7217c0b0d52d02fc7fac3ae0bc8109568f93a5675d3d4ffda5fd1e68
 - filename: .github/workflows/deployment.yml
   checksum: e0bcf9b304357148880362f2f3960cfa11b7f6da19cd29c36bb209a6acc4be0c
+- filename: bussie_backend/calculations/stop_example.xml
+  checksum: 0959734dbd5f136a07d2416cdb9f44f58603e752179da0a46c036ab43a4808cf
+- filename: bussie_backend/data_collection/example_bus.xml
+  checksum: 29a266afbb5191761d4a7fed94d001a322d068f2cc6f9e298c3fba0a0a54c525
+- filename: bussie_backend/data_collection/example_train.xml
+  checksum: 27068505c05ac54b77d86b9897cd07d5d139619f151046c7f5e1c77e6efd15f3
 
 
 scopeconfig:

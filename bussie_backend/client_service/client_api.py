@@ -73,7 +73,7 @@ async def get_vehicle_location():
         try:
             for key in rd.keys('*'):
                 vehicle = rd.json().get(key.decode('utf-8'))
-                response[str(key[2:])] = vehicle
+                response[str(key.decode('utf-8'))] = vehicle
             rd.json().set('cache_vehiclelist', Path.root_path(), response)
             rd.expire('cache_vehiclelist', 5)
             print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'),'--', (time.time() - start_time)*1000, 'milliseconds')
