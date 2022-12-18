@@ -64,7 +64,7 @@ async def create_stop(stop: schemas.StopCreate,
 async def get_vehicle_information():
     if rd.exists('cache_vehiclelist'):
         start_time = time.time()
-        print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('From Cache', 'blue'),'--', (time.time() - start_time)*1000, 'milliseconds')
+        print(colored('request', 'green'), colored('on /get_all_vehicle_information', 'white'), colored('From Cache', 'blue'),'--', (time.time() - start_time)*1000, 'milliseconds')
         return rd.json().get('cache_vehiclelist')
     else:
         response = {}
@@ -78,18 +78,18 @@ async def get_vehicle_information():
                     response[str(key.decode('utf-8'))] = vehicle
             rd.json().set('cache_vehiclelist', Path.root_path(), response)
             rd.expire('cache_vehiclelist', 5)
-            print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'),'--', (time.time() - start_time)*1000, 'milliseconds')
+            print(colored('request', 'green'), colored('on /get_all_vehicle_information', 'white'), colored('recalculated', 'red'),'--', (time.time() - start_time)*1000, 'milliseconds')
             return response
         except Exception as e:
             """pass"""
-            print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('hit except block', 'red'))
+            print(colored('request', 'green'), colored('on /get_all_vehicle_information', 'white'), colored('hit except block', 'red'))
             print(e)
       
 @router.get("/list_vehicle_location")      
 async def list_vehicle_location():
     if rd.exists('short_location'):
         start_time = time.time()
-        print(colored('request', 'green'), colored('on /get_location', 'white'), colored('From Cache', 'blue'),'--', (time.time() - start_time)*1000, 'milliseconds')
+        print(colored('request', 'green'), colored('on /list_vehicle_location', 'white'), colored('From Cache', 'blue'),'--', (time.time() - start_time)*1000, 'milliseconds')
         return rd.json().get('short_location')
     else:
         response = {}
@@ -115,7 +115,7 @@ async def list_vehicle_location():
 async def list_vehicle_location(vehicle_id: str):
     start_time = time.time()
     if rd.exists(vehicle_id):
-        print(colored('request', 'green'), colored('on /get_vehicle_information', 'white'), '--', (time.time() - start_time)*1000, 'milliseconds')
+        print(colored('request', 'green'), colored('on list_vehicle_information', 'white'), '--', (time.time() - start_time)*1000, 'milliseconds')
         return rd.json().get(vehicle_id)
     else:
         return "Not Found"
