@@ -10,7 +10,8 @@ import time
 from termcolor import colored
 import redis
 
-rd = redis.Redis(host='localhost', port=6379, db=0)
+rd0 = redis.Redis(host='localhost', port=6379, db=0)
+rd1 = redis.Redis(host='localhost', port=6379, db=1)
 
 
 

@@ -72,8 +72,11 @@ async def get_vehicle_location():
         start_time = time.time()
         try:
             for key in rd.keys('*'):
-                vehicle = rd.json().get(key.decode('utf-8'))
-                response[str(key.decode('utf-8'))] = vehicle
+                if key == 'cache_vehiclelist':
+                    pass
+                else:
+                    vehicle = rd.json().get(key.decode('utf-8'))
+                    response[str(key.decode('utf-8'))] = vehicle
             rd.json().set('cache_vehiclelist', Path.root_path(), response)
             rd.expire('cache_vehiclelist', 5)
             print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('recalculated', 'red'),'--', (time.time() - start_time)*1000, 'milliseconds')
@@ -82,3 +85,29 @@ async def get_vehicle_location():
             """pass"""
             print(colored('request', 'green'), colored('on /get_vehicles', 'white'), colored('hit except block', 'red'))
             print(e)
+      
+@router.get("/get_locations")      
+async def short_location():
+    if rd.exists('short_location'):
+        start_time = time.time()
+        print(colored('request', 'green'), colored('on /get_location', 'white'), colored('From Cache', 'blue'),'--', (time.time() - start_time)*1000, 'milliseconds')
+        return rd.json().get('short_location')
+    else:
+        response = {}
+        start_time = time.time()
+        for key in rd.keys('*'):
+            if key == 'cache_vehiclelist':
+                pass
+            else:
+                try:
+                    vehicle = rd.json().get(key.decode('utf-8'))
+                    identifier = vehicle['unique_vehicle_identifier']
+                    lat = vehicle['latitude']
+                    lon = vehicle['longitude']
+                    response[str(identifier)] = lat, lon
+                except:
+                    pass
+        rd.json().set('short_location', Path.root_path(), response)
+        rd.expire('short_location', 5)
+        print(colored('request', 'green'), colored('on /get_location', 'white'), colored('recalculated', 'red'),'--', (time.time() - start_time)*1000, 'milliseconds') 
+        return response

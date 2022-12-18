@@ -122,6 +122,7 @@ def parse_unknown_structure(multipart):
                     value = root[4][0][j].text  
                     vehicle_object[tag] = value
             unique_vehicle_identifier = 'A3-'+str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text) +'_vehicle_'+ str(root[4][0][9].text)
+            vehicle_object['unique_vehicle_identifier'] = unique_vehicle_identifier
             rd.json().set(unique_vehicle_identifier, Path.root_path(), vehicle_object)
             rd.expire(unique_vehicle_identifier, 120)
     except:
@@ -143,6 +144,7 @@ def parse_unknown_structure(multipart):
                         vehicle_object[tag] = value
                         vehicle_object['locationsource'] = 'no_information_available'
                 unique_vehicle_identifier = "A0_"+str(root[4][0][2].text)+'_operator_'+str(root[4][0][0].text) +'_linenumber_'+ str(root[4][0][1].text)+'_journeynumber_'+ str(root[4][0][3].text)
+                vehicle_object['unique_vehicle_identifier'] = unique_vehicle_identifier
                 rd.json().set(unique_vehicle_identifier, Path.root_path(), vehicle_object)
                 rd.expire(unique_vehicle_identifier, 120)
         except:
